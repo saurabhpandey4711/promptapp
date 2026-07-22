@@ -6,6 +6,7 @@ import TrendingSection from "../components/TrendingSection";
 import CategorySection from "../components/CategorySection";
 import MostCopied from "../components/MostCopied";
 import Footer from "../components/Footer";
+import LatestPrompts from "../components/LatestPrompts";
 
 function Home() {
   const [search, setSearch] = useState("");
@@ -32,6 +33,8 @@ function Home() {
 
       <MostCopied />
 
+      <LatestPrompts />
+      
       <Footer />
 
     </div>
