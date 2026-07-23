@@ -42,3 +42,11 @@ export const deletePrompt = async (id) => {
   const res = await API.delete(`/prompts/${id}`);
   return res.data;
 };
+
+export const getDashboardStats = async (userId) => {
+
+  const res = await API.get(`/prompts/stats/${userId}`);
+
+  return res.data;
+
+};

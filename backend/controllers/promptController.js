@@ -91,14 +91,15 @@ db.query(updateViews, [id], (updateErr) => {
 // Add Prompt
 export const addPrompt = (req, res) => {
 
-  const {
-    title,
-    description,
-    prompt_text,
-    image,
-    category_id,
-    user_id,
-  } = req.body;
+ const {
+  title,
+  description,
+  prompt_text,
+  image,
+  category_id,
+} = req.body;
+
+const user_id = req.user.id;
 
   const sql = `
     INSERT INTO prompts
@@ -183,28 +184,106 @@ export const updatePrompt = (req, res) => {
     category_id,
   } = req.body;
 
-  const sql = `
-    UPDATE prompts
-    SET
-      title=?,
-      description=?,
-      prompt_text=?,
-      image=?,
-      category_id=?
-    WHERE id=?
-  `;
+  const checkSql = "SELECT user_id FROM prompts WHERE id = ?";
 
-  db.query(
-    sql,
-    [
-      title,
-      description,
-      prompt_text,
-      image,
-      category_id,
-      id,
-    ],
-    (err, result) => {
+  db.query(checkSql, [id], (err, result) => {
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Prompt not found",
+      });
+    }
+
+    if (result[0].user_id !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to edit this prompt",
+      });
+    }
+
+    const sql = `
+      UPDATE prompts
+      SET
+        title=?,
+        description=?,
+        prompt_text=?,
+        image=?,
+        category_id=?
+      WHERE id=?
+    `;
+
+    db.query(
+      sql,
+      [
+        title,
+        description,
+        prompt_text,
+        image,
+        category_id,
+        id,
+      ],
+      (err) => {
+
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            message: err.message,
+          });
+        }
+
+        res.json({
+          success: true,
+          message: "Prompt Updated Successfully",
+        });
+
+      }
+    );
+
+  });
+
+};
+
+// Delete Prompt
+export const deletePrompt = (req, res) => {
+
+  const { id } = req.params;
+
+  const checkSql = "SELECT user_id FROM prompts WHERE id = ?";
+
+  db.query(checkSql, [id], (err, result) => {
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Prompt Not Found",
+      });
+    }
+
+    if (result[0].user_id !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You are not authorized to delete this prompt",
+      });
+    }
+
+    const deleteSql = "DELETE FROM prompts WHERE id = ?";
+
+    db.query(deleteSql, [id], (err, result) => {
 
       if (err) {
         return res.status(500).json({
@@ -215,22 +294,30 @@ export const updatePrompt = (req, res) => {
 
       res.json({
         success: true,
-        message: "Prompt Updated Successfully",
+        message: "Prompt Deleted Successfully",
       });
 
-    }
-  );
+    });
+
+  });
 
 };
 
-// Delete Prompt
-export const deletePrompt = (req, res) => {
+// Dashboard Stats
+export const getDashboardStats = (req, res) => {
 
-  const { id } = req.params;
+  const { userId } = req.params;
 
-  const sql = "DELETE FROM prompts WHERE id=?";
+  const sql = `
+    SELECT
+      COUNT(*) AS totalPrompts,
+      SUM(views) AS totalViews,
+      SUM(copies) AS totalCopies
+    FROM prompts
+    WHERE user_id = ?
+  `;
 
-  db.query(sql, [id], (err, result) => {
+  db.query(sql, [userId], (err, result) => {
 
     if (err) {
       return res.status(500).json({
@@ -239,16 +326,13 @@ export const deletePrompt = (req, res) => {
       });
     }
 
-    if (result.affectedRows === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "Prompt Not Found",
-      });
-    }
-
     res.json({
       success: true,
-      message: "Prompt Deleted Successfully",
+      stats: {
+        totalPrompts: result[0].totalPrompts || 0,
+        totalViews: result[0].totalViews || 0,
+        totalCopies: result[0].totalCopies || 0,
+      },
     });
 
   });

@@ -179,3 +179,50 @@ export const getProfile = (req, res) => {
   });
 
 };
+
+
+export const updateProfile = (req, res) => {
+
+  const { id } = req.params;
+
+  const {
+    username,
+    email,
+    profile_image,
+  } = req.body;
+
+  const sql = `
+    UPDATE users
+    SET
+      username = ?,
+      email = ?,
+      profile_image = ?
+    WHERE id = ?
+  `;
+
+  db.query(
+    sql,
+    [
+      username,
+      email,
+      profile_image,
+      id,
+    ],
+    (err) => {
+
+      if (err) {
+        return res.status(500).json({
+          success: false,
+          message: err.message,
+        });
+      }
+
+      res.json({
+        success: true,
+        message: "Profile Updated Successfully",
+      });
+
+    }
+  );
+
+};

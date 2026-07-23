@@ -13,3 +13,10 @@ export const getLikes = async (promptId) => {
   const res = await API.get(`/likes/${promptId}`);
   return res.data.likes;
 };
+
+import api from "../api/api";
+
+export const getLikedPrompts = async (userId) => {
+  const res = await api.get(`/likes/user/${userId}`);
+  return res.data;
+};

@@ -56,6 +56,19 @@ function Navbar() {
                 Dashboard
               </Link>
 
+              <Link 
+                  to="/profile"
+                  className="text-white hover:text-purple-500 transition"
+              >
+                  Profile
+              </Link>
+              <Link
+  to="/liked"
+  className="text-white hover:text-purple-500 transition"
+>
+  ❤️ Liked
+</Link>
+
               <Link
                 to="/add-prompt"
                 className="text-white hover:text-purple-500 transition"

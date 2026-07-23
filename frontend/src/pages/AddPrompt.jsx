@@ -62,22 +62,22 @@ function AddPrompt() {
   try {
     const promptData = {
       ...formData,
-      user_id: 1, // अभी testing के लिए
+      //user_id: 1, // अभी testing के लिए
     };
-
+    // const res = await addPrompt(formData);
     const res = await addPrompt(promptData);
 
     toast.success(res.message);
 
     navigate("/");
-  } catch (error) {
+   } catch (error) {
     console.log(error);
 
     toast.error(
       error.response?.data?.message || "Failed to add prompt"
     );
-  }
-};
+   }
+  };
 
   return (
     <div className="min-h-screen bg-[#0B0B14] flex justify-center py-10">

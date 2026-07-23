@@ -81,3 +81,39 @@ export const getLikes = (req, res) => {
     });
   });
 };
+
+
+export const getLikedPrompts = (req, res) => {
+
+  const { userId } = req.params;
+
+  const sql = `
+    SELECT
+      p.*,
+      c.name AS categoryName
+    FROM likes l
+    JOIN prompts p
+      ON l.prompt_id = p.id
+    LEFT JOIN categories c
+      ON p.category_id = c.id
+    WHERE l.user_id = ?
+    ORDER BY l.id DESC
+  `;
+
+  db.query(sql, [userId], (err, result) => {
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    res.json({
+      success: true,
+      prompts: result,
+    });
+
+  });
+
+};

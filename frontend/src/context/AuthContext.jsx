@@ -1,20 +1,12 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext,  useState } from "react";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-
-  const [user, setUser] = useState(null);
-
-  useEffect(() => {
-
+ const [user, setUser] = useState(() => {
     const token = localStorage.getItem("token");
-
-    if (token) {
-      setUser({ token });
-    }
-
-  }, []);
+    return token ? { token } : null;
+  });
 
   const login = (token) => {
     localStorage.setItem("token", token);
@@ -27,7 +19,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-
     <AuthContext.Provider
       value={{
         user,
@@ -37,7 +28,6 @@ export const AuthProvider = ({ children }) => {
     >
       {children}
     </AuthContext.Provider>
-
   );
 };
 
