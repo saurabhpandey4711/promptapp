@@ -100,6 +100,11 @@ export const loginUser = (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
 
+console.log("Entered Password:", password);
+console.log("Stored Hash:", user.password);
+console.log("Password Match:", isMatch);
+
+
     if (!isMatch) {
       return res.status(401).json({
         success: false,

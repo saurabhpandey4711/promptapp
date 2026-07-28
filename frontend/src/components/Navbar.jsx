@@ -1,13 +1,17 @@
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { FaBars, FaTimes } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
 function Navbar() {
   const navigate = useNavigate();
-
   const { user, logout } = useAuth();
+
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
+    setMenuOpen(false);
     navigate("/");
   };
 
@@ -23,14 +27,21 @@ function Navbar() {
           PromptAura
         </Link>
 
-        {/* Menu */}
-        <div className="flex items-center gap-8">
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center gap-8">
 
           <Link
             to="/"
             className="text-white hover:text-purple-500 transition"
           >
             Home
+          </Link>
+
+          <Link
+            to="/admin"
+            className="text-white hover:text-purple-500 transition"
+          >
+            Admin
           </Link>
 
           <a
@@ -56,18 +67,19 @@ function Navbar() {
                 Dashboard
               </Link>
 
-              <Link 
-                  to="/profile"
-                  className="text-white hover:text-purple-500 transition"
-              >
-                  Profile
-              </Link>
               <Link
-  to="/liked"
-  className="text-white hover:text-purple-500 transition"
->
-  ❤️ Liked
-</Link>
+                to="/profile"
+                className="text-white hover:text-purple-500 transition"
+              >
+                Profile
+              </Link>
+
+              <Link
+                to="/liked"
+                className="text-white hover:text-purple-500 transition"
+              >
+                ❤️ Liked
+              </Link>
 
               <Link
                 to="/add-prompt"
@@ -78,7 +90,7 @@ function Navbar() {
 
               <button
                 onClick={handleLogout}
-                className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg text-white transition"
+                className="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg text-white"
               >
                 Logout
               </button>
@@ -94,7 +106,114 @@ function Navbar() {
 
               <Link
                 to="/register"
-                className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg text-white transition"
+                className="bg-purple-600 hover:bg-purple-700 px-5 py-2 rounded-lg text-white"
+              >
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          className="md:hidden text-white text-2xl"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FaTimes /> : <FaBars />}
+        </button>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-[#111122] px-6 py-4 flex flex-col gap-4">
+
+          <Link
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className="text-white"
+          >
+            Home
+          </Link>
+
+          <Link
+            to="/admin"
+            onClick={() => setMenuOpen(false)}
+            className="text-white"
+          >
+            Admin
+          </Link>
+
+          <a
+            href="#categories"
+            onClick={() => setMenuOpen(false)}
+            className="text-white"
+          >
+            Categories
+          </a>
+
+          <a
+            href="#trending"
+            onClick={() => setMenuOpen(false)}
+            className="text-white"
+          >
+            Trending
+          </a>
+
+          {user ? (
+            <>
+              <Link
+                to="/dashboard"
+                onClick={() => setMenuOpen(false)}
+                className="text-white"
+              >
+                Dashboard
+              </Link>
+
+              <Link
+                to="/profile"
+                onClick={() => setMenuOpen(false)}
+                className="text-white"
+              >
+                Profile
+              </Link>
+
+              <Link
+                to="/liked"
+                onClick={() => setMenuOpen(false)}
+                className="text-white"
+              >
+                ❤️ Liked
+              </Link>
+
+              <Link
+                to="/add-prompt"
+                onClick={() => setMenuOpen(false)}
+                className="text-white"
+              >
+                Add Prompt
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="bg-red-600 py-2 rounded-lg text-white"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                onClick={() => setMenuOpen(false)}
+                className="text-white"
+              >
+                Login
+              </Link>
+
+              <Link
+                to="/register"
+                onClick={() => setMenuOpen(false)}
+                className="bg-purple-600 py-2 rounded-lg text-center text-white"
               >
                 Register
               </Link>
@@ -102,8 +221,7 @@ function Navbar() {
           )}
 
         </div>
-
-      </div>
+      )}
     </nav>
   );
 }

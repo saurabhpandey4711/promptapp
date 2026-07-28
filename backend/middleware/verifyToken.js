@@ -22,6 +22,11 @@ const verifyToken = (req, res, next) => {
 
     req.user = decoded;
 
+        // {
+        //    id: 1,
+        //    role: "admin"
+        //  }
+
     next();
 
   } catch (err) {

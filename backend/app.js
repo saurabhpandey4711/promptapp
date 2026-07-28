@@ -9,6 +9,7 @@ import authRoutes from "./routers/authRoutes.js";
 import likeRoutes from "./routers/likeRoutes.js";
 import path from "path";
 import uploadRoutes from "./routers/uploadRoutes.js";
+import adminRoutes from "./routers/adminRoutes.js";
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/likes", likeRoutes);
 app.use("/api/upload", uploadRoutes);
+app.use("/api/admin", adminRoutes);
 
 app.get("/", (req, res) => {
   res.json({

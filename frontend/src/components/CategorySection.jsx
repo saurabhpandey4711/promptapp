@@ -3,7 +3,7 @@ import CategoryCard from "./CategoryCard";
 
 function CategorySection() {
   return (
-    <section className="bg-[#0B0B14] py-20">
+    <section  id="categories" className="bg-[#0B0B14] py-20">
 
       <div className="max-w-7xl mx-auto px-6">
 

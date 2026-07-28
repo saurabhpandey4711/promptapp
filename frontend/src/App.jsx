@@ -12,6 +12,10 @@ import AddPrompt from "./pages/AddPrompt";
 import EditPrompt from "./pages/EditPrompt";
 import Profile from "./pages/Profile";
 import LikedPrompts from "./pages/LikedPrompts";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminUsers from "./pages/AdminUsers";
+import AdminPrompts from "./pages/AdminPrompts";
+import AdminAnalytics from "./pages/AdminAnalytics";
 
 function App() {
   return (
@@ -26,7 +30,13 @@ function App() {
         <Route path="/edit-prompt/:id" element={<EditPrompt />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/liked"element={<LikedPrompts />}/>
-      </Routes>
+        <Route path="/admin"element={<AdminDashboard />}/>
+       
+        <Route path="/admin/users" element={<AdminUsers />} />
+        <Route path="/admin/prompts" element={<AdminPrompts />} />
+        <Route path="/admin/analytics"element={<AdminAnalytics />}/>
+        
+        </Routes>
       <ToastContainer
         position="top-right"
         autoClose={2000}

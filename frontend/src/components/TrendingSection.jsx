@@ -45,7 +45,7 @@ function TrendingSection({ search, selectedCategory }) {
   }
 
   return (
-    <section className="bg-[#0B0B14] py-16">
+    <section  id="trending"   className="bg-[#0B0B14] py-16">
       <div className="max-w-7xl mx-auto px-6">
 
         <div className="flex justify-between items-center mb-8">
