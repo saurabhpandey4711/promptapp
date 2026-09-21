@@ -144,7 +144,7 @@ function Navbar() {
           </Link>
 
           <a
-            href="#categories"
+            href="categories"
             onClick={() => setMenuOpen(false)}
             className="text-white"
           >
@@ -152,7 +152,7 @@ function Navbar() {
           </a>
 
           <a
-            href="#trending"
+            href="trending"
             onClick={() => setMenuOpen(false)}
             className="text-white"
           >

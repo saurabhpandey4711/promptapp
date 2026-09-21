@@ -3,7 +3,7 @@ import db from "../config/db.js";
 export const toggleLike = (req, res) => {
   const { promptId } = req.params;
 
-  // फिलहाल testing के लिए user_id = 1
+ 
   const userId = 1;
 
   const checkSql =

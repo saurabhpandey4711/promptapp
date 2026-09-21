@@ -1,23 +1,70 @@
+// import express from "express";
+// import cors from "cors";
+// import dotenv from "dotenv";
+
+// import categoryRoutes from "./routers/categoryRoutes.js";
+// import db from "./config/db.js";
+// import promptRoutes from "./routers/promptRoutes.js";
+// import authRoutes from "./routers/authRoutes.js";
+// import likeRoutes from "./routers/likeRoutes.js";
+// import path from "path";
+// import uploadRoutes from "./routers/uploadRoutes.js";
+// import adminRoutes from "./routers/adminRoutes.js";
+
+// dotenv.config();
+
+// const app = express();
+
+// app.use(cors());
+// app.use(express.json());
+// app.use("/uploads", express.static("uploads"));
+// app.use("/api/prompts", promptRoutes);
+// app.use("/api/auth", authRoutes);
+// app.use("/api/categories", categoryRoutes);
+// app.use("/api/likes", likeRoutes);
+// app.use("/api/upload", uploadRoutes);
+// app.use("/api/admin", adminRoutes);
+
+// app.get("/", (req, res) => {
+//   res.json({
+//     message: "PromptVerse Backend Running 🚀",
+//   });
+// });
+
+// export default app;
+
+
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 
 import categoryRoutes from "./routers/categoryRoutes.js";
-import db from "./config/db.js";
 import promptRoutes from "./routers/promptRoutes.js";
 import authRoutes from "./routers/authRoutes.js";
 import likeRoutes from "./routers/likeRoutes.js";
-import path from "path";
 import uploadRoutes from "./routers/uploadRoutes.js";
 import adminRoutes from "./routers/adminRoutes.js";
+
+import db from "./config/db.js";
 
 dotenv.config();
 
 const app = express();
 
+// CORS
 app.use(cors());
+
+// Body parser
 app.use(express.json());
-app.use("/uploads", express.static("uploads"));
+
+// Static uploads
+app.use(
+  "/uploads",
+  express.static(path.join(process.cwd(), "uploads"))
+);
+
+// Routes
 app.use("/api/prompts", promptRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/categories", categoryRoutes);
@@ -25,6 +72,7 @@ app.use("/api/likes", likeRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/admin", adminRoutes);
 
+// Home route
 app.get("/", (req, res) => {
   res.json({
     message: "PromptVerse Backend Running 🚀",

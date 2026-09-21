@@ -115,6 +115,7 @@ console.log("Password Match:", isMatch);
     const token = jwt.sign(
       {
         id: user.id,
+        username: user.username,
         email: user.email,
         role: user.role,
       },
@@ -139,9 +140,41 @@ console.log("Password Match:", isMatch);
 };
 
 export const getCurrentUser = (req, res) => {
-  res.status(200).json({
-    success: true,
-    user: req.user,
+  const userId = req.user.id;
+
+  const sql = `
+    SELECT
+      id,
+      username,
+      email,
+      profile_image,
+      role,
+      created_at
+    FROM users
+    WHERE id = ?
+  `;
+
+  db.query(sql, [userId], (err, result) => {
+
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
+
+    if (result.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      user: result[0],
+    });
+
   });
 };
 
@@ -187,47 +220,90 @@ export const getProfile = (req, res) => {
 
 
 export const updateProfile = (req, res) => {
-
   const { id } = req.params;
+  const { username, email } = req.body;
 
-  const {
-    username,
-    email,
-    profile_image,
-  } = req.body;
+  if (!username || !email) {
+    return res.status(400).json({
+      success: false,
+      message: "Username and Email are required",
+    });
+  }
 
-  const sql = `
-    UPDATE users
-    SET
-      username = ?,
-      email = ?,
-      profile_image = ?
-    WHERE id = ?
-  `;
+  // Security: user sirf apna profile update kar sake
+  if (Number(req.user.id) !== Number(id)) {
+    return res.status(403).json({
+      success: false,
+      message: "You can only update your own profile",
+    });
+  }
 
-  db.query(
-    sql,
-    [
-      username,
-      email,
-      profile_image,
-      id,
-    ],
-    (err) => {
+  // Agar new image upload hui hai
+  if (req.file) {
+    const profileImage = `/uploads/profiles/${req.file.filename}`;
 
-      if (err) {
-        return res.status(500).json({
-          success: false,
-          message: err.message,
+    const sql = `
+      UPDATE users
+      SET username = ?, email = ?, profile_image = ?
+      WHERE id = ?
+    `;
+
+    db.query(
+      sql,
+      [username, email, profileImage, id],
+      (err, result) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            message: err.message,
+          });
+        }
+
+        if (result.affectedRows === 0) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+
+        res.status(200).json({
+          success: true,
+          message: "Profile Updated Successfully",
+          profile_image: profileImage,
         });
       }
+    );
+  } else {
+    // Image select nahi ki → purani image same rahegi
+    const sql = `
+      UPDATE users
+      SET username = ?, email = ?
+      WHERE id = ?
+    `;
 
-      res.json({
-        success: true,
-        message: "Profile Updated Successfully",
-      });
+    db.query(
+      sql,
+      [username, email, id],
+      (err, result) => {
+        if (err) {
+          return res.status(500).json({
+            success: false,
+            message: err.message,
+          });
+        }
 
-    }
-  );
+        if (result.affectedRows === 0) {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
 
+        res.status(200).json({
+          success: true,
+          message: "Profile Updated Successfully",
+        });
+      }
+    );
+  }
 };
