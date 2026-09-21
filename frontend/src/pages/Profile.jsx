@@ -52,7 +52,8 @@ function Profile() {
     );
   }
 
- const backendUrl = "http://localhost:5000";
+//  const backendUrl = "http://localhost:5000";
+  const backendUrl = import.meta.env.VITE_API_URL;
 
 const profileImage = user.profile_image
   ? `${backendUrl}${user.profile_image}`
