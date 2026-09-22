@@ -1,5 +1,5 @@
 import SearchBar from "./SearchBar";
-
+import heroImg from "../assets/my-heroIMG.jpeg";
 
 
 function Hero({
@@ -72,8 +72,9 @@ function Hero({
         <div>
 
           <img
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900"
-            alt="Hero"
+            //src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=900"
+            src={heroImg}
+            alt="photo"
             className="rounded-3xl w-full h-[500px] object-cover shadow-2xl"
           />
 
