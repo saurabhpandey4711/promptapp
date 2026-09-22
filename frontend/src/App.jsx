@@ -17,6 +17,9 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminPrompts from "./pages/AdminPrompts";
 import AdminAnalytics from "./pages/AdminAnalytics";
 import EditProfile from "./pages/EditProfile";
+import ManageCategories from "./components/admin/ManageCategories";
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -35,6 +38,7 @@ function App() {
         <Route path="/admin/users" element={<AdminUsers />} />
         <Route path="/admin/prompts" element={<AdminPrompts />} />
         <Route path="/admin/analytics"element={<AdminAnalytics />}/>
+        <Route path="/admin/categories"element={<ManageCategories />}/>
         <Route path="/edit-profile" element={<EditProfile />} />
 
      </Routes>

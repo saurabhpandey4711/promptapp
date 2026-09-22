@@ -2,7 +2,6 @@ import SearchBar from "./SearchBar";
 
 
 
-
 function Hero({
   search,
   setSearch,

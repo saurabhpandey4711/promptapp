@@ -5,6 +5,7 @@ import {
   FaChartBar,
   FaHome,
   FaSignOutAlt,
+  FaTags,
 } from "react-icons/fa";
 
 function AdminSidebar() {
@@ -25,6 +26,11 @@ function AdminSidebar() {
       name: "Prompts",
       icon: <FaImages />,
       path: "/admin/prompts",
+    },
+    {
+      name: "Categories",
+      icon: <FaTags />,
+      path: "/admin/categories",
     },
     {
       name: "Analytics",
