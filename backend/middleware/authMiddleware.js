@@ -10,18 +10,32 @@ export const verifyToken = (req, res, next) => {
     });
   }
 
-  const token = authHeader.split(" ")[1];
+  const parts = authHeader.split(" ");
+
+  if (parts.length !== 2 || parts[0] !== "Bearer") {
+    return res.status(401).json({
+      success: false,
+      message: "Invalid Authorization Format",
+    });
+  }
+
+  const token = parts[1];
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET
+    );
 
     req.user = decoded;
 
     next();
   } catch (error) {
+    console.log("JWT Error:", error.message);
+
     return res.status(401).json({
       success: false,
-      message: "Invalid Token",
+      message: "Invalid or Expired Token",
     });
   }
 };

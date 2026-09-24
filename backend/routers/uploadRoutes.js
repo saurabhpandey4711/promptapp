@@ -13,7 +13,7 @@ router.post("/", upload.single("image"), (req, res) => {
 
   res.json({
     success: true,
-    imageUrl: `http://localhost:5000/uploads/${req.file.filename}`,
+    imageUrl: `${process.env.BACKEND_URL}/uploads/${req.file.filename}`,
     message: "Image Uploaded Successfully",
   });
 });
