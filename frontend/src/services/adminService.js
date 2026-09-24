@@ -16,7 +16,8 @@ export const getAllPrompts = async () => {
 };
 
 export const deletePrompt = async (id) => {
-  const res = await api.delete(`/admin/prompts/${id}`);
+  // const res = await api.delete(`/admin/prompts/${id}`);
+  const res = await api.delete(`/prompts/${id}`);
   return res.data;
 };
 
