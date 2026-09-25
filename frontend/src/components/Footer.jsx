@@ -6,6 +6,12 @@ import {
 } from "react-icons/fa";
 
 function Footer() {
+    const whatsappNumber = "918303503818";
+
+  const whatsappMessage = encodeURIComponent(
+    "Hello Saurabh, I want to discuss a website project."
+  );
+
   return (
     <footer className="bg-[#0B0B14] border-t border-gray-800 mt-20">
       <div className="max-w-7xl mx-auto px-6 py-10">
@@ -15,7 +21,7 @@ function Footer() {
           {/* Logo */}
           <div>
             <h2 className="text-2xl font-bold text-white">
-              PromptVerse
+              PromptAura
             </h2>
 
             <p className="text-gray-400 mt-3">
@@ -86,11 +92,85 @@ function Footer() {
             </div>
           </div>
 
+
+
         </div>
+
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+
+          {/* About */}
+          <div>
+            <h2 className="text-2xl font-bold text-purple-400 mb-4">
+              About Me
+            </h2>
+
+            <p className="text-gray-400 leading-7 max-w-xl">
+              I'm Saurabh Pandey, a Full-Stack Web Developer passionate
+              about building modern and responsive web experiences.
+              Have a website idea? Let's build it together.
+            </p>
+
+            {/* Contact Button */}
+            <a
+              href={`https://wa.me/${whatsappNumber}?text=${whatsappMessage}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-6 px-6 py-3 bg-purple-600
+              hover:bg-purple-700 rounded-lg font-medium
+              transition duration-300"
+            >
+              Contact Me
+            </a>
+          </div>
+
+          {/* Services */}
+          <div>
+            <h2 className="text-2xl font-bold text-purple-400 mb-4">
+              What I Can Build
+            </h2>
+
+            <ul className="text-gray-400 space-y-2">
+              <li>• Business Websites</li>
+              <li>• Portfolio Websites</li>
+              <li>• E-commerce Websites</li>
+              <li>• Full-Stack Web Applications</li>
+              <li>• Custom Web Solutions</li>
+            </ul>
+          </div>
+
+        </div>
+
+        {/* Bottom */}
+        <div className="border-t border-gray-800 mt-10 pt-6
+        flex flex-col md:flex-row justify-between items-center gap-3">
+
+          <p className="text-gray-500 text-sm">
+            © {new Date().getFullYear()} Saurabh Pandey. All rights reserved.
+          </p>
+
+          <p className="text-gray-500 text-sm">
+            Built with ❤️ and code.
+          </p>
+
+        </div>
+
+
+
+
+
+
+
+
 
         <div className="border-t border-gray-800 mt-8 pt-6 text-center text-gray-500">
           © {new Date().getFullYear()} PromptVerse. All Rights Reserved.
         </div>
+
+
+
+
+
+
 
       </div>
     </footer>
