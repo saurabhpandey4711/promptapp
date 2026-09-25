@@ -17,10 +17,11 @@ import DashboardPromptCard from "../components/DashboardPromptCard";
 import { deletePrompt } from "../services/promptService";
 import { toast } from "react-toastify";
 import { getDashboardStats } from "../services/promptService";
+import { useAuth } from "../context/AuthContext";
 
 function Dashboard() {
   const [prompts, setPrompts] = useState([]);
-
+  const { user } = useAuth();
 
 
   const [stats, setStats] = useState({
@@ -31,12 +32,12 @@ function Dashboard() {
 
 
 
-  useEffect(() => {
+ useEffect(() => {
+  if (!user?.id) return;
 
-      const loadPrompts = async () => {
+  const loadPrompts = async () => {
     try {
-      // अभी testing के लिए user_id = 1
-      const data = await getUserPrompts(1);
+      const data = await getUserPrompts(user.id);
       setPrompts(data);
     } catch (err) {
       console.log(err);
@@ -44,24 +45,17 @@ function Dashboard() {
   };
 
   const loadStats = async () => {
+    try {
+      const res = await getDashboardStats(user.id);
+      setStats(res.stats);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  try {
-
-    const res = await getDashboardStats(1);
-
-    setStats(res.stats);
-
-  } catch (err) {
-
-    console.log(err);
-
-  }
-
-};
-
-    loadPrompts();
-    loadStats();
-  }, []);
+  loadPrompts();
+  loadStats();
+}, [user]);
 
  
 

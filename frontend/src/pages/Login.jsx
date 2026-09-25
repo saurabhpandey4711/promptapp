@@ -27,7 +27,7 @@ function Login() {
     try {
       const res = await loginUser(formData);
 
-      login(res.data.token);
+      login(res.data.token, res.data.user);
 
       toast.success(res.data.message);
 
