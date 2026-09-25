@@ -274,12 +274,15 @@ export const deletePrompt = (req, res) => {
       });
     }
 
-    if (result[0].user_id !== req.user.id) {
-      return res.status(403).json({
-        success: false,
-        message: "You are not authorized to delete this prompt",
-      });
-    }
+   if (
+  result[0].user_id !== req.user.id &&
+  req.user.role !== "admin"
+) {
+  return res.status(403).json({
+    success: false,
+    message: "You are not authorized to delete this prompt",
+  });
+}
 
     const deleteSql = "DELETE FROM prompts WHERE id = ?";
 
